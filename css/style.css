@@ -15,6 +15,7 @@
 .page-container {
   position: relative;
   min-height: 100vh;
+  background-color: #cbbcb1;
 }
 .copyright {
   display: block;
@@ -26,11 +27,22 @@
   color: #f6f5f1;
   font-size: 0.7rem;
   text-align: center;
+  line-height: 50px;
+  margin-bottom: 0;
+}
+.welcome{
+  margin:20px 50px 20px 50px;
+  font-family: 'Goldman', cursive;
 }
 .blogs {
   display: block;
   margin: 20px 50px 0 50px;
   padding-bottom: 50px;
+}
+.blog,
+.blog:hover {
+  color: #030b38;
+  text-decoration: none;
 }
 .new-diary {
   margin: 0 50px 0 50px;
@@ -49,3 +61,9 @@
   width: 100%;
   border-radius: 5px;
 }
+#newPostLabel{
+  height:200px;
+}
+#readMore{
+}
+

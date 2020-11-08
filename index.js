@@ -1,11 +1,14 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const lodash = require("lodash");
+
 const app = new express();
+
 
 app.set("view engine", "ejs");
 app.use(express.static(__dirname));
 app.use(bodyParser.urlencoded({ extended: true }));
-const blogs = [{ title: "first blog", content: "This is my first blog." }];
+const blogs = [];
 
 app.get("/", (req, res) => {
   res.render("index", { blogs: blogs });
@@ -29,11 +32,27 @@ app.listen(3000, () => {
 });
 //route parameter
 app.get("/posts/:postTitle", (req, res) => {
-  console.log(req.params.postTitle);
   blogs.forEach((e) => {
-    if (e.title === req.params.postTitle) {
+    if (lodash.lowerCase(e.title) === lodash.lowerCase(req.params.postTitle)) {
       res.render("singleBlog", (blog = e));
     }
   });
-  res.render("singleBlog", (blog = { title: "No such blog.", content: "" }));
 });
+
+app.use((req, res, next) => {
+  res.render("404");
+})
+
+text_truncate = function(str, length, ending) {
+  if (length == null) {
+    length = 100;
+  }
+  if (ending == null) {
+    ending = '... ';
+  }
+  if (str.length > length) {
+    return str.substring(0, length - ending.length) + ending;
+  } else {
+    return str;
+  }
+};

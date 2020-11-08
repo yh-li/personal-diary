@@ -1,22 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-  <%-include('partials/header.ejs');%>
-  <body>
-    <div class="page-container">
-        <%-include('partials/navbar.ejs');%>
-        <h1>Home</h1>
-        <p>This is Yihan's Diary.</p>
-        <div class="blogs">
-            <% for(var i=0;i<blogs.length;i++){ %>
-                <div class="blog">
-                    <h1><%=blogs[i].title%></h1>
-                    <p><%=blogs[i].content%></p>
-                </div>
-            <%}%>
+<%-include('partials/header.ejs');%>
+    <div href="/" class="welcome">
+        <h1>Welcome to Yihan's diary.</h1>
+        <p>What's he's thinking now?</p>
+      </div>
+    <div class="blogs">
+      
+      <% for(var i=0;i<blogs.length;i++){ %>
+        <% const url = "/posts/"+blogs[i].title %>
+        <div class="blog">
+          <h1><%=blogs[i].title%></h1>
+          <p><%=text_truncate(blogs[i].content)%>
+            <% if(blogs[i].content.length>100){ %>
+            <a href="<%= url %>" id="readMore">Read More</a></p>
+          <% } %>
         </div>
-        <%-include('partials/footer.ejs');%>
-        
+      <%}%>
     </div>
-  </body>
-  
-</html>
+<%-include('partials/footer.ejs');%>
+        
+

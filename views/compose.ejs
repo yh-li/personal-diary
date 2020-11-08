@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <%-include('partials/header.ejs');%>
-  <body>
-    <%-include('partials/navbar.ejs');%>
-
+<%-include('partials/header.ejs');%>
     <form class="new-diary" action="/compose" method="post">
       <div class="form-group">
         <label for="newTitleLabel" class="new-diary-label">Title</label>
@@ -28,6 +23,5 @@
       </div>
       <button type="submit" class="btn btn-primary">Publish</button>
     </form>
-  </body>
   <%-include('partials/footer.ejs');%>
-</html>
+
