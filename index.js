@@ -6,7 +6,7 @@ const lodash = require("lodash");
 const mongoose = require("mongoose");
 //connection URL through mongoose
 //if the database doesn't exist, create it
-mongoose.connect("mongodb+srv://admin-yihan:zhaofang@cluster0.fbpuc.mongodb.net/diaryDB?retryWrites=true&w=majority",{useNewUrlParser:true,useUnifiedTopology:true});
+mongoose.connect("mongodb+srv://<user>:<password>@cluster0.fbpuc.mongodb.net/diaryDB?retryWrites=true&w=majority",{useNewUrlParser:true,useUnifiedTopology:true});
 
 //define diary schema
 const diarySchema = new mongoose.Schema({
@@ -43,8 +43,7 @@ app.get("/compose", (req, res) => {
 });
 app.post("/compose", (req, res) => {
   const newDiary = new Diary({ title: req.body.title, body: req.body.content });
-  newDiary.save();
-  res.redirect("/");
+  newDiary.save().then(() => { res.redirect("/");});
 });
 app.listen(process.env.PORT || 3000, () => {
   console.log("Running at dynamic port or port 3000.");
