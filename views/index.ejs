@@ -4,17 +4,18 @@
         <p>What's he's thinking now?</p>
       </div>
     <div class="blogs">
-      
-      <% for(var i=0;i<blogs.length;i++){ %>
-        <% const url = "/posts/"+blogs[i].title %>
-        <div class="blog">
-          <h1><%=blogs[i].title%></h1>
-          <p><%=text_truncate(blogs[i].content)%>
-            <% if(blogs[i].content.length>100){ %>
-            <a href="<%= url %>" id="readMore">Read More</a></p>
-          <% } %>
-        </div>
-      <%}%>
+      <% blogs.forEach((e)=>{%>
+        <form class="blog" action="/delete" method="post">
+            <h1><%=e.title%> <input type="image" src="/img/delete.svg" class="delete-icon"></h1>
+            <p><%=text_truncate(e.body)%></p>
+            <% if(e.body.length>100){ %>
+              <% const url = "/posts/"+e.title %>
+              <a href="<%= url %>" id="readMore">Read More</a></p>
+            <% } %>
+            <input type="hidden" value="<%=e._id%>" name="diaryID">
+
+        </form>
+      <%})%>
     </div>
 <%-include('partials/footer.ejs');%>
         

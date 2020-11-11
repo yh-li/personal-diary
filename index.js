@@ -1,17 +1,36 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const lodash = require("lodash");
+//const MongoClient = require("mongodb").MongoClient;
+//const assert = require("assert");
+const mongoose = require("mongoose");
+//connection URL through mongoose
+//if the database doesn't exist, create it
+mongoose.connect("mongodb+srv://admin-yihan:zhaofang@cluster0.fbpuc.mongodb.net/diaryDB?retryWrites=true&w=majority",{useNewUrlParser:true,useUnifiedTopology:true});
 
-const app = new express();
+//define diary schema
+const diarySchema = new mongoose.Schema({
+  title: String,
+  body: String
+});
+//define diary model - the collection
+const Diary = new mongoose.model("Diary", diarySchema);
 
 
+const app = express()
 app.set("view engine", "ejs");
 app.use(express.static(__dirname));
 app.use(bodyParser.urlencoded({ extended: true }));
-const blogs = [];
 
 app.get("/", (req, res) => {
-  res.render("index", { blogs: blogs });
+  Diary.find({}, (err, diaries) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("index", { blogs: diaries });
+    }
+  })
+  
 });
 app.get("/contact", (req, res) => {
   res.render("contact");
@@ -23,20 +42,38 @@ app.get("/compose", (req, res) => {
   res.render("compose");
 });
 app.post("/compose", (req, res) => {
-  const newBlog = { title: req.body.title, content: req.body.content };
-  blogs.push(newBlog);
+  const newDiary = new Diary({ title: req.body.title, body: req.body.content });
+  newDiary.save();
   res.redirect("/");
 });
-app.listen(3000, () => {
-  console.log("Running at port 3000.");
+app.listen(process.env.PORT || 3000, () => {
+  console.log("Running at dynamic port or port 3000.");
 });
 //route parameter
 app.get("/posts/:postTitle", (req, res) => {
-  blogs.forEach((e) => {
-    if (lodash.lowerCase(e.title) === lodash.lowerCase(req.params.postTitle)) {
-      res.render("singleBlog", (blog = e));
+  Diary.findOne({ title: lodash.lowerCase(req.params.postTitle) }, (err, diary) => {
+    if (err) {
+      console.log(err);
+    } else {
+      if (diary) {
+        res.render("singleBlog", (blog = diary));
+      } else {
+        res.render("404");
+      }
+      
+    }
+  })
+});
+
+app.post("/delete", (req, res) => {
+  Diary.deleteOne({ _id: req.body.diaryID }, (err, diary) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("Deleted Successfully.");
     }
   });
+  res.redirect("/")
 });
 
 app.use((req, res, next) => {

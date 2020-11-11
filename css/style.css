@@ -64,6 +64,9 @@
 #newPostLabel{
   height:200px;
 }
-#readMore{
+.delete-icon{
+  float: right;
+  widows:30px;
+  height:30px;
 }
 
