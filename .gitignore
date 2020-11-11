@@ -1,0 +1,4 @@
+/node_modeuls
+npm-debug.log
+.DS_Store
+/*.env

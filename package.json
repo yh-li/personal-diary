@@ -12,6 +12,9 @@
   },
   "author": "Yihan Li",
   "license": "ISC",
+  "engines":{
+    "node":"14.13.0"
+  },
   "bugs": {
     "url": "https://github.com/yh-li/personal-diary/issues"
   },
